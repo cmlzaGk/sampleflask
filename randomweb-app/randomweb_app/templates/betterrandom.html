@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<style>
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    $("#runbutton").click(function(){
+          $("#loading").show();
+          $("#runbutton").attr("disabled", true);
+          $.post('{{url_for('.betterrandomservice')}}', {},
+                function(data, status){
+                $('#output').text(data['random_int']);
+          }).always(function(xhr, textStatus, errorThrown) {
+                $("#runbutton").attr("disabled", false);
+          });;
+        });
+</script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6" style="background-color:yellow;">
+                <button id="runbutton" type="button" class="btn">Get Random</button>
+             </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6" id="output" style="background-color:pink;">
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+FROM rishimaker.azurecr.io/demowebsite:latest
+
+ENV FLASK_CONFIG testing
+ENV FLASK_APP=randomweb_app.flask_app
+
+LABEL Name=demowebsite-tests Version=0.0.1
+
+WORKDIR /unittests
+COPY bettermath-lib bettermath-lib
+COPY randomweb-app randomweb-app
+COPY requirements.txt run_coverage.sh ./
+
+# Using pip:
+RUN python3 -m pip uninstall -y bettermath-lib
+RUN python3 -m pip uninstall -y randomweb-app
+RUN python3 -m pip install  coverage
+RUN python3 -m pip install  --no-deps -e bettermath-lib/
+RUN python3 -m pip install  --no-deps -e randomweb-app/

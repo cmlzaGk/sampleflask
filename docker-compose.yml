@@ -1,0 +1,19 @@
+version: '3'
+services:
+  webapp:
+    build:
+        context: ./
+    image: rishimaker.azurecr.io/demowebsite:latest
+    ports:
+        - "5000:5000"
+  coverage:
+    build:
+        context: ./
+        dockerfile: Dockerfile.unittests
+    command: sh ./run_coverage.sh
+
+  tests:
+    build:
+        context: ./
+        dockerfile: Dockerfile.unittests
+    command: flask test
